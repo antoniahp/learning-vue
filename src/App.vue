@@ -1,45 +1,19 @@
 <script setup>
 import AnimalCard from "@/components/AnimalCard.vue";
 import {ref} from "vue";
+import {onMounted} from "vue";
+import {AnimalService} from "@/services/animals.service";
+const animalsService = new AnimalService();
 
-const animals = ref([
-    {
-      "name": "Max",
-      "gender": "MALE",
-      "vaccinated": true,
-      "breed": "perro",
-      "age": "2023-08-17",
-      "description": "Mamífero doméstico de la familia de los cánidos, de tamaño, forma y pelaje muy diversos, según las razas, que tiene olfato muy fino y es inteligente y muy leal a su dueño.",
-      "picture": "https://s1.eestatic.com/2023/04/10/curiosidades/mascotas/755184649_232302148_1706x960.jpg"
-    },
-    {
-      "name": "Samy",
-      "gender": "MALE",
-      "vaccinated": true,
-      "breed": "perro",
-      "age": "2023-08-17",
-      "description": "Mamífero doméstico de la familia de los cánidos, de tamaño, forma y pelaje muy diversos, según las razas, que tiene olfato muy fino y es inteligente y muy leal a su dueño.",
-      "picture": "https://static.fundacion-affinity.org/cdn/farfuture/PVbbIC-0M9y4fPbbCsdvAD8bcjjtbFc0NSP3lRwlWcE/mtime:1643275542/sites/default/files/los-10-sonidos-principales-del-perro.jpg"
-    },
-        {
-      "name": "Piston",
-      "gender": "MALE",
-      "vaccinated": true,
-      "breed": "perro",
-      "age": "2023-08-17",
-      "description": "Mamífero doméstico de la familia de los cánidos, de tamaño, forma y pelaje muy diversos, según las razas, que tiene olfato muy fino y es inteligente y muy leal a su dueño.",
-      "picture": "https://estaticos-cdn.sport.es/clip/f177ad07-3dde-4e2c-9c75-d5bb558e2d73_alta-libre-aspect-ratio_default_0.jpg"
-    },
-        {
-      "name": "Rocky",
-      "gender": "MALE",
-      "vaccinated": true,
-      "breed": "perro",
-      "age": "2023-08-17",
-      "description": "Mamífero doméstico de la familia de los cánidos, de tamaño, forma y pelaje muy diversos, según las razas, que tiene olfato muy fino y es inteligente y muy leal a su dueño.",
-            "picture": "https://www.65ymas.com/uploads/s1/76/14/09/bigstock-beautiful-portrait-dog-breed-b-419947822_1_621x621.jpeg"
-    },
-    ])
+const pets = ref([]);
+onMounted(()=>{
+    animalsService.getAnimals().then((responseData)=>{
+        console.log(responseData.animals)
+        pets.value = responseData.animals;
+    })
+})
+
+
 
 </script>
 
@@ -72,10 +46,15 @@ const animals = ref([
 
 </div>
 
-<div class="container mx-auto py-12 grid xl:grid-cols-3 md:grid-cols-1 gap-4">
-    <AnimalCard v-for="animal in animals" :key="animal.id" :animal="animal"></AnimalCard>
+<div class="container mx-auto py-12 grid xl:grid-cols-3 md:grid-cols-1 gap-4 ">
+    <AnimalCard v-for="pet in pets" :key="pets.id" :pet="pet"></AnimalCard>
 </div>
 
+    <header class="container bg-sky-200 flex justify-evenly mx-auto h-30 mb-10 ">
+        <div class="text-center py-12 flex flex-col">
 
+            <h3 class=" text-3xl font-serif  tracking-widest text-purple-300  ">"Amor es una palabra de cuatro patas"</h3>
+        </div>
+    </header>
 </template>
 
